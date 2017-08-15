@@ -39,18 +39,22 @@ RUN DEBIAN_FRONTEND=noninteractive \
       dvipng \
       git \
       wget \
+      curl \
       composer \
+      subversion \
       && \
-    apt-get clean && \
-    \
-    a2enmod rewrite && \
+    apt-get clean
+
+RUN a2enmod rewrite && \
     a2enmod headers && \
     a2dissite 000-default && \
-    \
-    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp && \
-    chmod 750 /usr/local/bin/wp && \
-    \
-    curl -O http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz && \
+    service apache2 restart
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
+    chmod 750 /usr/local/bin/wp
+
+RUN curl -O http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz && \
     tar -xzf kindlegen_linux_2.6_i386_v2_9.tar.gz && \
-    mv kindlegen_linux_2.6_i386_v2_9/kindlegen /usr/local/bin/kindlegen && \
+    mv kindlegen /usr/local/bin/kindlegen && \
     chmod 755 /usr/local/bin/kindlegen
