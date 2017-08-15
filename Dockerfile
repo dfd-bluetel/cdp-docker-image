@@ -52,9 +52,13 @@ RUN a2enmod rewrite && \
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp && \
+    chown root:users /usr/local/bin/wp && \
     chmod 750 /usr/local/bin/wp
 
 RUN curl -O http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz && \
-    tar -xzf kindlegen_linux_2.6_i386_v2_9.tar.gz && \
-    mv kindlegen /usr/local/bin/kindlegen && \
+    mkdir kindlegen && \
+    tar -xzf kindlegen_linux_2.6_i386_v2_9.tar.gz -C kindlegen && \
+    mv kindlegen/kindlegen /usr/local/bin/kindlegen && \
+    rm -rf kindlegen && \
+    chown root:users /usr/local/bin/kindlegen && \
     chmod 755 /usr/local/bin/kindlegen
